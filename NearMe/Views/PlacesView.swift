@@ -23,13 +23,16 @@ struct PlacesView: View {
         }
         .navigationTitle("Places")
         .navigationBarItems(trailing: Button(
-            action: { model.loadContent(invalidate: true) }) {
+            action: {
+                model.invalidate()
+                model.loadContent()
+            }) {
             Image(systemName: "arrow.counterclockwise")
                 .foregroundColor(.white)
                 .imageScale(.medium)
             })
         .onAppear(perform: {
-            model.loadContent(invalidate: false)
+            model.loadContent()
         })
         .alert(isPresented: $model.authorizationDenied, content: {
             Alert(

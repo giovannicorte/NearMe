@@ -28,28 +28,29 @@ class PlacesViewModel: NSObject, ObservableObject {
     
     func loadMoreContent(currentItem place: Place?) {
         guard let place = place else {
-            loadContent(invalidate: false)
+            loadContent()
             return
         }
 
         let thresholdIndex = places.index(places.endIndex, offsetBy: -5)
         if places.firstIndex(where: { $0.id == place.id }) == thresholdIndex {
-            loadContent(invalidate: false)
+            loadContent()
         }
     }
     
-    func loadContent(invalidate: Bool) {
-        if invalidate {
-            if currentTask != nil {
-                currentTask?.cancel()
-                currentTask = nil
-            }
-            isLoading = false
-            places = []
-            page = 0
-            canLoadMorePages = true
-            lastLocation = nil
+    func invalidate() {
+        if currentTask != nil {
+            currentTask?.cancel()
+            currentTask = nil
         }
+        isLoading = false
+        places = []
+        page = 0
+        canLoadMorePages = true
+        lastLocation = nil
+    }
+    
+    func loadContent() {
         if lastLocation != nil {
             self.fetchPlaces(latitude: lastLocation!.coordinate.latitude, longitude: lastLocation!.coordinate.longitude)
         } else {
@@ -90,7 +91,7 @@ class PlacesViewModel: NSObject, ObservableObject {
 }
 
 extension PlacesViewModel: CLLocationManagerDelegate {
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location: CLLocation = locations.first!
         self.lastLocation = location
