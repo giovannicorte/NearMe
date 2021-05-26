@@ -33,20 +33,20 @@ struct Location {
     let type: String
 }
 
-extension Places: Decodable {
+extension Places: Codable {
     enum CodingKeys: String, CodingKey {
         case places
     }
 }
 
-extension Place: Decodable {
+extension Place: Codable {
     enum CodingKeys: String, CodingKey {
         case id, name, address, town, distance, location
         case tag = "desc"
     }
 }
 
-extension Location: Decodable {
+extension Location: Codable {
     enum CodingKeys: String, CodingKey {
         case coordinates, type
     }

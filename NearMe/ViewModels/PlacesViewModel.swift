@@ -62,18 +62,22 @@ class PlacesViewModel: NSObject, ObservableObject {
             return
         }
         isLoading = true
-        let url = URL(string: "https://nearme-py-webapp.herokuapp.com/places?query=all&latitude=\(latitude)&longitude=\(longitude)&page=\(page)")!
-        let request = APIRequest(url: url)
-        currentTask = request.perform { [weak self] (results: Places?) -> Void in
-            guard let result = results?.places else { return }
-            self?.page += 1
-            self?.isLoading = false
-            self?.places.append(contentsOf: result)
-            if result.count < 10 {
-                self?.canLoadMorePages = true
+        
+        NetworkEngine.request(
+            endpoint: PlacesEndpoint.places(query: "all", latitude: latitude, longitude: longitude, page: page)) {
+            (result : Result<Places, Error>) in
+            switch result {
+            case .success(let response):
+                self.page += 1
+                self.isLoading = false
+                self.places.append(contentsOf: response.places)
+                if response.places.count < 10 {
+                    self.canLoadMorePages = true
+                }
+            case .failure(let error):
+                print(error)
             }
         }
-        currentTask?.resume()
     }
     
     func getUserLocation() -> Location {
