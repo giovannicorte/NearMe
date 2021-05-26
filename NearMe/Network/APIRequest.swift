@@ -2,19 +2,19 @@
 //  APIRequest.swift
 //  NearMe
 //
-//  Created by Giovanni Corte on 25/05/2021.
+//  Created by Giovanni Corte on 26/05/2021.
 //
 
 import Foundation
 
 class APIRequest {
     let url: URL
-        
+    
     init(url: URL) {
         self.url = url
     }
     
-    func perform<T: Decodable>(with completion: @escaping (T?) -> Void) {
+    func perform<T: Decodable>(with completion: @escaping (T?) -> Void) -> URLSessionTask {
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: .main)
         let task = session.dataTask(with: url) { (data, _, _) in
             guard let data = data else {
@@ -25,7 +25,6 @@ class APIRequest {
             decoder.dateDecodingStrategy = .secondsSince1970
             completion(try? decoder.decode(T.self, from: data))
         }
-        task.resume()
+        return task
     }
-    
 }

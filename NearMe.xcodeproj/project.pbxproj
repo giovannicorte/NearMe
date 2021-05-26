@@ -10,7 +10,6 @@
 		E2EBAFA2265CFE70003DFA9D /* NearMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBAFA1265CFE70003DFA9D /* NearMeApp.swift */; };
 		E2EBAFA6265CFE72003DFA9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2EBAFA5265CFE72003DFA9D /* Assets.xcassets */; };
 		E2EBAFA9265CFE72003DFA9D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2EBAFA8265CFE72003DFA9D /* Preview Assets.xcassets */; };
-		E2EBAFB2265CFEAB003DFA9D /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBAFB1265CFEAB003DFA9D /* APIRequest.swift */; };
 		E2EBAFB5265CFECB003DFA9D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBAFB4265CFECB003DFA9D /* Extensions.swift */; };
 		E2EBAFB9265CFF36003DFA9D /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBAFB8265CFF36003DFA9D /* Place.swift */; };
 		E2EBAFBD265CFF4E003DFA9D /* PlacesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBAFBC265CFF4E003DFA9D /* PlacesViewModel.swift */; };
@@ -19,6 +18,7 @@
 		E2EBAFC6265CFFBC003DFA9D /* PlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBAFC5265CFFBC003DFA9D /* PlaceView.swift */; };
 		E2EBAFC9265D0002003DFA9D /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBAFC8265D0002003DFA9D /* MapView.swift */; };
 		E2EBAFCC265D0029003DFA9D /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBAFCB265D0029003DFA9D /* TestData.swift */; };
+		E2EFBD83265E702C005653C4 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFBD82265E702C005653C4 /* APIRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +27,6 @@
 		E2EBAFA5265CFE72003DFA9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2EBAFA8265CFE72003DFA9D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		E2EBAFAA265CFE72003DFA9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E2EBAFB1265CFEAB003DFA9D /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		E2EBAFB4265CFECB003DFA9D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E2EBAFB7265CFF15003DFA9D /* Italy.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Italy.gpx; sourceTree = "<group>"; };
 		E2EBAFB8265CFF36003DFA9D /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
@@ -37,6 +36,7 @@
 		E2EBAFC5265CFFBC003DFA9D /* PlaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceView.swift; sourceTree = "<group>"; };
 		E2EBAFC8265D0002003DFA9D /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		E2EBAFCB265D0029003DFA9D /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		E2EFBD82265E702C005653C4 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +50,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E2A48FCB265D5959006DA975 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				E2EFBD82265E702C005653C4 /* APIRequest.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		E2BAE3C2265D58770010316F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E2EBAFB8265CFF36003DFA9D /* Place.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E2BAE3C3265D58810010316F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E2EBAFC2265CFFA9003DFA9D /* PlacesView.swift */,
+				E2EBAFC5265CFFBC003DFA9D /* PlaceView.swift */,
+				E2EBAFC8265D0002003DFA9D /* MapView.swift */,
+				E2EBAFCB265D0029003DFA9D /* TestData.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E2BAE3C4265D58930010316F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E2EBAFBC265CFF4E003DFA9D /* PlacesViewModel.swift */,
+				E2EBAFBF265CFF6C003DFA9D /* MapViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		E2EBAF95265CFE70003DFA9D = {
 			isa = PBXGroup;
 			children = (
@@ -69,20 +105,16 @@
 		E2EBAFA0265CFE70003DFA9D /* NearMe */ = {
 			isa = PBXGroup;
 			children = (
+				E2A48FCB265D5959006DA975 /* Network */,
+				E2BAE3C4265D58930010316F /* ViewModels */,
+				E2BAE3C3265D58810010316F /* Views */,
+				E2BAE3C2265D58770010316F /* Models */,
 				E2EBAFA1265CFE70003DFA9D /* NearMeApp.swift */,
 				E2EBAFA5265CFE72003DFA9D /* Assets.xcassets */,
 				E2EBAFAA265CFE72003DFA9D /* Info.plist */,
 				E2EBAFA7265CFE72003DFA9D /* Preview Content */,
-				E2EBAFB1265CFEAB003DFA9D /* APIRequest.swift */,
 				E2EBAFB4265CFECB003DFA9D /* Extensions.swift */,
 				E2EBAFB7265CFF15003DFA9D /* Italy.gpx */,
-				E2EBAFB8265CFF36003DFA9D /* Place.swift */,
-				E2EBAFBC265CFF4E003DFA9D /* PlacesViewModel.swift */,
-				E2EBAFBF265CFF6C003DFA9D /* MapViewModel.swift */,
-				E2EBAFC2265CFFA9003DFA9D /* PlacesView.swift */,
-				E2EBAFC5265CFFBC003DFA9D /* PlaceView.swift */,
-				E2EBAFC8265D0002003DFA9D /* MapView.swift */,
-				E2EBAFCB265D0029003DFA9D /* TestData.swift */,
 			);
 			path = NearMe;
 			sourceTree = "<group>";
@@ -166,13 +198,13 @@
 			files = (
 				E2EBAFBD265CFF4E003DFA9D /* PlacesViewModel.swift in Sources */,
 				E2EBAFCC265D0029003DFA9D /* TestData.swift in Sources */,
-				E2EBAFB2265CFEAB003DFA9D /* APIRequest.swift in Sources */,
 				E2EBAFC6265CFFBC003DFA9D /* PlaceView.swift in Sources */,
 				E2EBAFA2265CFE70003DFA9D /* NearMeApp.swift in Sources */,
 				E2EBAFC0265CFF6C003DFA9D /* MapViewModel.swift in Sources */,
 				E2EBAFB5265CFECB003DFA9D /* Extensions.swift in Sources */,
 				E2EBAFC9265D0002003DFA9D /* MapView.swift in Sources */,
 				E2EBAFC3265CFFA9003DFA9D /* PlacesView.swift in Sources */,
+				E2EFBD83265E702C005653C4 /* APIRequest.swift in Sources */,
 				E2EBAFB9265CFF36003DFA9D /* Place.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

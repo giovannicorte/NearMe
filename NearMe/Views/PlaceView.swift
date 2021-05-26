@@ -13,7 +13,7 @@ struct PlaceView: View {
     
     var body: some View {
         NavigationLink(destination: MapView(place: place, location: location)) {
-            HStack(alignment: .center, spacing: 16.0) {
+            HStack(alignment: .center, spacing: 8.0) {
                 Image(place.iconResource)
                     .resizable()
                     .aspectRatio(contentMode: .fit)

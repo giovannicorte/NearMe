@@ -14,6 +14,7 @@ class PlacesViewModel: NSObject, ObservableObject {
     @Published var isLoading: Bool = false
     private var page: Int = 0
     private var canLoadMorePages: Bool = true
+    private var currentTask: URLSessionTask?
     
     @Published var authorizationDenied: Bool = false
     var locationManager: CLLocationManager = CLLocationManager()
@@ -39,7 +40,12 @@ class PlacesViewModel: NSObject, ObservableObject {
     
     func loadContent(invalidate: Bool) {
         if invalidate {
-            places.removeAll()
+            if currentTask != nil {
+                currentTask?.cancel()
+                currentTask = nil
+            }
+            isLoading = false
+            places = []
             page = 0
             canLoadMorePages = true
             lastLocation = nil
@@ -55,20 +61,19 @@ class PlacesViewModel: NSObject, ObservableObject {
         guard !isLoading && canLoadMorePages else {
             return
         }
-
         isLoading = true
-        
         let url = URL(string: "https://nearme-py-webapp.herokuapp.com/places?query=all&latitude=\(latitude)&longitude=\(longitude)&page=\(page)")!
         let request = APIRequest(url: url)
-        request.perform { [weak self] (results: Places?) -> Void in
+        currentTask = request.perform { [weak self] (results: Places?) -> Void in
             guard let result = results?.places else { return }
-            self?.isLoading = false
             self?.page += 1
+            self?.isLoading = false
             self?.places.append(contentsOf: result)
             if result.count < 10 {
                 self?.canLoadMorePages = true
             }
         }
+        currentTask?.resume()
     }
     
     func getUserLocation() -> Location {
