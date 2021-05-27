@@ -14,7 +14,7 @@ struct PlacesView: View {
     var body: some View {
         List {
             ForEach(model.places) { place in
-                NavigationLink(destination: MapView(place: place, location: model.getUserLocation())) {
+                NavigationLink(destination: MapView(place: place, location: model.lastLocation!)) {
                     PlaceView(place: place)
                         .onAppear(perform: {
                             model.loadMoreContent(currentItem: place)

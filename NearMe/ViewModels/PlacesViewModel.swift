@@ -17,7 +17,7 @@ class PlacesViewModel: NSObject, ObservableObject {
     
     @Published var authorizationDenied: Bool = false
     var locationManager: CLLocationManager = CLLocationManager()
-    var lastLocation: CLLocation?
+    var lastLocation: Location?
     
     override init() {
         super.init()
@@ -53,7 +53,7 @@ class PlacesViewModel: NSObject, ObservableObject {
             return
         }
         if lastLocation != nil {
-            self.fetchPlaces(latitude: lastLocation!.coordinate.latitude, longitude: lastLocation!.coordinate.longitude)
+            self.fetchPlaces(latitude: lastLocation!.coordinates[1], longitude: lastLocation!.coordinates[0])
         } else {
             locationManager.requestLocation()
         }
@@ -82,20 +82,16 @@ class PlacesViewModel: NSObject, ObservableObject {
         }
     }
     
-    func getUserLocation() -> Location {
-        guard let lat: Double = self.lastLocation?.coordinate.latitude, let lon: Double = self.lastLocation?.coordinate.longitude else {
-            return Location(coordinates: [], type: "Point")
-        }
-        return Location(coordinates: [lon, lat], type: "Point")
-    }
-    
 }
 
 extension PlacesViewModel: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location: CLLocation = locations.first!
-        self.lastLocation = location  // Initialize a Location struct
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        self.lastLocation = Location(coordinates: [longitude, latitude], type: "Point")
+        
         self.fetchPlaces(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
     }
 
