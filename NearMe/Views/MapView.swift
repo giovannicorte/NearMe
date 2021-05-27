@@ -16,13 +16,19 @@ struct MapView: View {
     @StateObject var model = MapViewModel()
     
     var body: some View {
-        VStack {
+        ZStack {
             Map(coordinateRegion: $model.region,
                 showsUserLocation: true,
                 annotationItems: [self.place]) { place in
                 MapMarker(coordinate: place.getCoordinates())
             }
+            PlaceView(place: place)
+                .frame(width: 300, height: 175)
+                .background(Color.white
+                                .shadow(color: Color.gray, radius: 3, x: 0, y: 0))
+                .offset(x: 0, y: 200)
         }
+        .edgesIgnoringSafeArea(.bottom)
         .navigationTitle(place.name)
         .navigationBarItems(leading: Button(action: {
             self.presentationMode.wrappedValue.dismiss()

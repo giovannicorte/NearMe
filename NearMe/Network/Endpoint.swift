@@ -18,4 +18,5 @@ protocol Endpoint {
     var parameters: [URLQueryItem] { get }
     
     var method: String { get }
+    
 }

@@ -14,7 +14,6 @@ class PlacesViewModel: NSObject, ObservableObject {
     @Published var isLoading: Bool = false
     private var page: Int = 0
     private var canLoadMorePages: Bool = true
-    private var currentTask: URLSessionTask?
     
     @Published var authorizationDenied: Bool = false
     var locationManager: CLLocationManager = CLLocationManager()
@@ -31,7 +30,7 @@ class PlacesViewModel: NSObject, ObservableObject {
             loadContent()
             return
         }
-
+        
         let thresholdIndex = places.index(places.endIndex, offsetBy: -5)
         if places.firstIndex(where: { $0.id == place.id }) == thresholdIndex {
             loadContent()
@@ -39,9 +38,8 @@ class PlacesViewModel: NSObject, ObservableObject {
     }
     
     func invalidate() {
-        if currentTask != nil {
-            currentTask?.cancel()
-            currentTask = nil
+        if isLoading {
+            return
         }
         isLoading = false
         places = []
@@ -51,6 +49,9 @@ class PlacesViewModel: NSObject, ObservableObject {
     }
     
     func loadContent() {
+        if isLoading {
+            return
+        }
         if lastLocation != nil {
             self.fetchPlaces(latitude: lastLocation!.coordinate.latitude, longitude: lastLocation!.coordinate.longitude)
         } else {
@@ -94,7 +95,7 @@ extension PlacesViewModel: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location: CLLocation = locations.first!
-        self.lastLocation = location
+        self.lastLocation = location  // Initialize a Location struct
         self.fetchPlaces(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
     }
 

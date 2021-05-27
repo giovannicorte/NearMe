@@ -9,25 +9,27 @@ import SwiftUI
 
 struct PlaceView: View {
     let place: Place
-    let location: Location
     
     var body: some View {
-        NavigationLink(destination: MapView(place: place, location: location)) {
-            HStack(alignment: .center, spacing: 8.0) {
-                Image(place.iconResource)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 32.0, height: 32.0)
-                VStack(alignment: .leading, spacing: 4.0) {
-                    Text(place.name)
-                        .font(.title)
-                    Text(place.tag)
-                        .font(.body)
-                        .foregroundColor(.orange)
+        HStack(alignment: .center, spacing: 8.0) {
+            Image(place.iconResource)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 32.0, height: 32.0)
+            VStack(alignment: .leading, spacing: 4.0) {
+                Text(place.name)
+                    .font(.title)
+                Text(place.tag)
+                    .font(.body)
+                    .foregroundColor(.orange)
+                if place.address !=  "None" {
                     Text(place.address)
                         .font(.caption)
-                    DistanceView(distance: place.distance)
+                } else {
+                    Text("Address informations are not availables")
+                        .font(.caption)
                 }
+                DistanceView(distance: place.distance)
             }
         }
     }
@@ -47,7 +49,7 @@ struct DistanceView: View {
 struct PlaceView_Previews: PreviewProvider {
     static var previews: some View {
         let place: Place = TestData.place
-        PlaceView(place: place, location: place.location)
+        PlaceView(place: place)
     }
 }
 

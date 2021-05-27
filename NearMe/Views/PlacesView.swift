@@ -14,10 +14,12 @@ struct PlacesView: View {
     var body: some View {
         List {
             ForEach(model.places) { place in
-                PlaceView(place: place, location: model.getUserLocation())
-                    .onAppear(perform: {
-                        model.loadMoreContent(currentItem: place)
-                    })
+                NavigationLink(destination: MapView(place: place, location: model.getUserLocation())) {
+                    PlaceView(place: place)
+                        .onAppear(perform: {
+                            model.loadMoreContent(currentItem: place)
+                        })
+                }
             }
             PlaceProgressView(isLoading: model.isLoading)
         }
