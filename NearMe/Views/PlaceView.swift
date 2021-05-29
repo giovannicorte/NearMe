@@ -29,19 +29,9 @@ struct PlaceView: View {
                     Text("Address informations are not availables")
                         .font(.caption)
                 }
-                DistanceView(distance: place.distance)
+                Text("Distance: \(place.distance.distanceInKm().description) km")
+                    .font(.caption)
             }
-        }
-    }
-}
-
-struct DistanceView: View {
-    let distance: Double
-    
-    var body: some View {
-        HStack {
-            Text("Distance: \(distance.distanceInKm().description) km")
-                .font(.caption)
         }
     }
 }

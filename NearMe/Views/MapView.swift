@@ -22,8 +22,8 @@ struct MapView: View {
                 annotationItems: [self.place]) { place in
                 MapMarker(coordinate: place.getCoordinates())
             }
-            PlaceView(place: place)
-                .frame(width: 300, height: 175)
+            InfoView(place: place)
+                .frame(minWidth: 0, /*maxWidth: getInfoMaxWidth(),*/ minHeight: 0)
                 .background(Color.white
                                 .shadow(color: Color.gray, radius: 3, x: 0, y: 0))
                 .offset(x: 0, y: 200)
@@ -45,6 +45,54 @@ struct MapView: View {
         .onAppear(perform: {
             model.loadRegion(placeLocation: place.location, userLocation: location)
         })
+    }
+    
+    func getInfoMaxWidth() -> CGFloat {
+        let screenRect = UIScreen.main.bounds
+        let screenWidth = screenRect.size.width
+        return screenWidth - 30
+    }
+
+}
+
+struct InfoView: View {
+    let place: Place
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4.0) {
+            Text(place.name)
+                .font(.title)
+            Text(place.tag)
+                .font(.body)
+                .foregroundColor(.orange)
+            if place.address !=  "None" {
+                Text(place.address)
+                    .font(.caption)
+            } else {
+                Text("Address information not available")
+                    .font(.caption)
+            }
+            Text("Distance: \(place.distance.distanceInKm().description) km")
+                .font(.caption)
+            Button(action: {
+                openMapsAppWithDirections(to: place.getCoordinates(), destinationName: place.name)
+            }, label: {
+                HStack {
+                    Text("Open in maps")
+                    Image(systemName: "map")
+                        .imageScale(.large)
+                }
+            })
+        }
+        .padding(20)
+    }
+    
+    func openMapsAppWithDirections(to coordinate: CLLocationCoordinate2D, destinationName name: String) {
+      let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+      let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: nil)
+      let mapItem = MKMapItem(placemark: placemark)
+      mapItem.name = name
+        mapItem.openInMaps(launchOptions: options)
     }
 }
 
