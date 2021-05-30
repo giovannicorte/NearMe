@@ -12,6 +12,7 @@ import Combine
 class PlacesViewModel: NSObject, ObservableObject {
     @Published var places: [Place] = [Place]()
     @Published var isLoading: Bool = false
+    private var query: String = "all"
     private var page: Int = 0
     private var canLoadMorePages: Bool = true
     
@@ -30,22 +31,22 @@ class PlacesViewModel: NSObject, ObservableObject {
             loadContent()
             return
         }
-        
         let thresholdIndex = places.index(places.endIndex, offsetBy: -5)
         if places.firstIndex(where: { $0.id == place.id }) == thresholdIndex {
             loadContent()
         }
     }
     
-    func invalidate() {
+    func invalidate(query: String = "all") {
         if isLoading {
             return
         }
-        isLoading = false
-        places = []
-        page = 0
-        canLoadMorePages = true
-        lastLocation = nil
+        self.isLoading = false
+        self.places = []
+        self.page = 0
+        self.canLoadMorePages = true
+        self.lastLocation = nil
+        self.query = query
     }
     
     func loadContent() {
@@ -63,10 +64,11 @@ class PlacesViewModel: NSObject, ObservableObject {
         guard !isLoading && canLoadMorePages else {
             return
         }
+        
         isLoading = true
         
         NetworkEngine.request(
-            endpoint: PlacesEndpoint.places(query: "all", latitude: latitude, longitude: longitude, page: page)) {
+            endpoint: PlacesEndpoint.places(query: query, latitude: latitude, longitude: longitude, page: page)) {
             (result : Result<Places, Error>) in
             switch result {
             case .success(let response):

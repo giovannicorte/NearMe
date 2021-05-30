@@ -23,10 +23,6 @@ struct MapView: View {
                 MapMarker(coordinate: place.getCoordinates())
             }
             InfoView(place: place)
-                .frame(minWidth: 0, /*maxWidth: getInfoMaxWidth(),*/ minHeight: 0)
-                .background(Color.white
-                                .shadow(color: Color.gray, radius: 3, x: 0, y: 0))
-                .offset(x: 0, y: 200)
         }
         .edgesIgnoringSafeArea(.bottom)
         .navigationTitle(place.name)
@@ -45,12 +41,6 @@ struct MapView: View {
         .onAppear(perform: {
             model.loadRegion(placeLocation: place.location, userLocation: location)
         })
-    }
-    
-    func getInfoMaxWidth() -> CGFloat {
-        let screenRect = UIScreen.main.bounds
-        let screenWidth = screenRect.size.width
-        return screenWidth - 30
     }
 
 }
@@ -85,6 +75,10 @@ struct InfoView: View {
             })
         }
         .padding(20)
+        .frame(minWidth: 0, minHeight: 0)
+        .background(Color.white
+                        .shadow(color: Color.gray, radius: 3, x: 0, y: 0))
+        .offset(x: 0, y: 200)
     }
     
     func openMapsAppWithDirections(to coordinate: CLLocationCoordinate2D, destinationName name: String) {

@@ -23,11 +23,14 @@ extension Double {
     
 }
 
-extension View {
+extension String {
     
-    @ViewBuilder func hidden(_ shouldHide: Bool) -> some View {
-        if shouldHide { hidden() }
-        else { self }
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalize() {
+        self = self.capitalizingFirstLetter()
     }
     
 }
