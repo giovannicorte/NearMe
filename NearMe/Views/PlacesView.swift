@@ -12,7 +12,7 @@ struct PlacesView: View {
     @StateObject var placesViewModel = PlacesViewModel()
     @State var showSelection = false
     
-    private let filters = ["All", "Food", "Shop", "Transport", "Tourist", "Accomodation"]
+    private let filters = ["All", "Food", "Shop", "Transport", "Tourist", "Accommodation"]
     
     var body: some View {
         ZStack {

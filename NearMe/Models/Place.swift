@@ -56,17 +56,19 @@ extension Place {
     var iconResource: String {
         let s: String = self.tag.lowercased()
         if s.contains("food") {
-            return "restaurant"
+            return "icon-food"
         } else if s.contains("shop") {
-            return "shop"
-        } else if s.contains("monument") {
-            return "monument"
-        } else if s.contains("money") {
-            return "bank"
+            return "icon-shop"
+        } else if s.contains("monument") || s.contains("tourist") {
+            return "icon-monument"
         } else if s.contains("sport") && !s.contains("transport") {
-            return "sport"
+            return "icon-sport"
+        } else if s.contains("health") {
+            return "icon-health"
+        } else if s.contains("accommodation") {
+            return "icon-accommo"
         } else {
-            return "marker"
+            return "map-pin"
         }
     }
 }
