@@ -30,5 +30,4 @@ class MapViewModel: NSObject, ObservableObject {
         
         self.region = MKCoordinateRegion(center: center, span: span)
     }
-    
 }

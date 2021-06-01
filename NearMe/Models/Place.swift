@@ -25,7 +25,6 @@ struct Place: Identifiable {
     func getCoordinates() -> CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: self.location.coordinates[1], longitude: self.location.coordinates[0])
     }
-    
 }
 
 struct Location {

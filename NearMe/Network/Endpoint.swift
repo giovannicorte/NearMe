@@ -10,7 +10,7 @@ import Foundation
 protocol Endpoint {
     
     var scheme: String { get }
-    
+
     var baseUrl: String { get }
     
     var path: String { get }

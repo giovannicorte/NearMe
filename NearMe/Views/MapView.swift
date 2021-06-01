@@ -42,7 +42,6 @@ struct MapView: View {
             model.loadRegion(placeLocation: place.location, userLocation: location)
         })
     }
-
 }
 
 struct InfoView: View {

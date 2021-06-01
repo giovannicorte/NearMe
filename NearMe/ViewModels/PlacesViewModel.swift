@@ -56,7 +56,7 @@ class PlacesViewModel: NSObject, ObservableObject {
         if lastLocation != nil && canLoadMorePages {
             self.fetchPlaces(latitude: lastLocation!.coordinates[1], longitude: lastLocation!.coordinates[0])
         } else {
-            locationManager.requestLocation()
+            self.locationManager.requestLocation()
         }
     }
     
@@ -83,11 +83,9 @@ class PlacesViewModel: NSObject, ObservableObject {
             }
         }
     }
-    
 }
 
 extension PlacesViewModel: CLLocationManagerDelegate {
-
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location: CLLocation = locations.first!
         let latitude = location.coordinate.latitude
@@ -110,15 +108,12 @@ extension PlacesViewModel: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         self.error = .location
     }
-    
 }
 
 enum PlacesError {
-    
     case none
     case empty
     case location
     case unknown
     case authorization
-    
 }
