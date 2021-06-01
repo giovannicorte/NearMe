@@ -12,11 +12,12 @@ import Combine
 class PlacesViewModel: NSObject, ObservableObject {
     @Published var places: [Place] = [Place]()
     @Published var isLoading: Bool = false
+    @Published var error: PlacesError = .none
+    
     private var query: String = "all"
     private var page: Int = 0
     private var canLoadMorePages: Bool = true
-    
-    @Published var authorizationDenied: Bool = false
+
     var locationManager: CLLocationManager = CLLocationManager()
     var lastLocation: Location?
     
@@ -50,10 +51,9 @@ class PlacesViewModel: NSObject, ObservableObject {
     }
     
     func loadContent() {
-        if isLoading {
-            return
-        }
-        if lastLocation != nil {
+        if isLoading { return }
+        self.isLoading = true
+        if lastLocation != nil && canLoadMorePages {
             self.fetchPlaces(latitude: lastLocation!.coordinates[1], longitude: lastLocation!.coordinates[0])
         } else {
             locationManager.requestLocation()
@@ -61,17 +61,16 @@ class PlacesViewModel: NSObject, ObservableObject {
     }
     
     func fetchPlaces(latitude: Double, longitude: Double) {
-        guard !isLoading && canLoadMorePages else {
-            return
-        }
-        
-        isLoading = true
-        
         NetworkEngine.request(
             endpoint: PlacesEndpoint.places(query: query, latitude: latitude, longitude: longitude, page: page)) {
             (result : Result<Places, Error>) in
             switch result {
             case .success(let response):
+                if (response.places.count == 0) {
+                    self.isLoading = false
+                    self.error = .empty
+                    return
+                }
                 self.page += 1
                 self.isLoading = false
                 self.places.append(contentsOf: response.places)
@@ -80,6 +79,7 @@ class PlacesViewModel: NSObject, ObservableObject {
                 }
             case .failure(let error):
                 print(error)
+                self.error = .unknown
             }
         }
     }
@@ -93,7 +93,7 @@ extension PlacesViewModel: CLLocationManagerDelegate {
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
         self.lastLocation = Location(coordinates: [longitude, latitude], type: "Point")
-        
+        self.isLoading = true
         self.fetchPlaces(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
     }
 
@@ -103,12 +103,22 @@ extension PlacesViewModel: CLLocationManagerDelegate {
         } else if status == .notDetermined {
             manager.requestWhenInUseAuthorization()
         } else {
-            self.authorizationDenied = true
+            self.error = .authorization
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // Implement error handling
+        self.error = .location
     }
+    
+}
+
+enum PlacesError {
+    
+    case none
+    case empty
+    case location
+    case unknown
+    case authorization
     
 }

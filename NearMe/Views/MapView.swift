@@ -33,7 +33,7 @@ struct MapView: View {
                 Image(systemName: "arrow.backward")
                     .foregroundColor(.white)
                     .imageScale(.medium)
-                Text("Back")
+                Text(Constants.Titles.back)
                     .foregroundColor(.white)
             }
         }))
@@ -59,7 +59,7 @@ struct InfoView: View {
                 Text(place.address)
                     .font(.caption)
             } else {
-                Text("Address information not available")
+                Text(Constants.Titles.noAddress)
                     .font(.caption)
             }
             Text("Distance: \(place.distance.distanceInKm().description) km")
@@ -68,7 +68,7 @@ struct InfoView: View {
                 openMapsAppWithDirections(to: place.getCoordinates(), destinationName: place.name)
             }, label: {
                 HStack {
-                    Text("Open in maps")
+                    Text(Constants.Titles.openInMaps)
                     Image(systemName: "map")
                         .imageScale(.large)
                 }

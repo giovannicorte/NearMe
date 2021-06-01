@@ -35,8 +35,17 @@ struct PlacesView: View {
             if $showSelection.wrappedValue {
                 SelectionView(model: placesViewModel, filters: filters, showSelection: $showSelection)
             }
+            if $placesViewModel.error.wrappedValue == PlacesError.authorization {
+                ErrorView(title: Constants.Errors.authorizationErrorTitle, message: Constants.Errors.authorizationErrorText, error: $placesViewModel.error)
+            }
+            if $placesViewModel.error.wrappedValue == PlacesError.empty {
+                ErrorView(title: Constants.Errors.emptyErrorTitle, message: Constants.Errors.emptyErrorText, error: $placesViewModel.error)
+            }
+            if $placesViewModel.error.wrappedValue == PlacesError.unknown {
+                ErrorView(title: Constants.Errors.unknownErrorTitle, message: Constants.Errors.unknownErrorText, error: $placesViewModel.error)
+            }
         }
-        .navigationTitle("Places")
+        .navigationTitle(Constants.Titles.title)
         .navigationBarItems(leading: Button(action: {
                                                 placesViewModel.invalidate()
                                                 placesViewModel.loadContent()},
@@ -54,22 +63,6 @@ struct PlacesView: View {
         .onAppear(perform: {
             placesViewModel.loadContent()
         })
-        .alert(isPresented: $placesViewModel.authorizationDenied, content: {
-            Alert(
-                title: Text("Location permissions required"),
-                message: Text("You have to give location permissions in order to use this application."),
-                primaryButton: .default(Text("Settings"), action: {
-                                UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
-                            }),
-                secondaryButton: .default(Text("Cancel"))
-            )
-        })
-    }
-    
-    func getPopupMaxWidth() -> CGFloat {
-        let screenRect = UIScreen.main.bounds
-        let screenWidth = screenRect.size.width
-        return (screenWidth * 2) / 3
     }
 }
 
@@ -92,13 +85,54 @@ struct PlaceView: View {
                     Text(place.address)
                         .font(.caption)
                 } else {
-                    Text("Address informations are not availables")
+                    Text(Constants.Titles.noAddress)
                         .font(.caption)
                 }
                 Text("Distance: \(place.distance.distanceInKm().description) km")
                     .font(.caption)
             }
         }
+    }
+}
+
+struct ErrorView: View {
+    let title: String
+    let message: String
+    
+    @Binding var error: PlacesError
+    
+    var body: some View {
+        ZStack {
+            Color.white
+            VStack(alignment: .center, spacing: 4.0) {
+                HStack(alignment: .center, spacing: 4.0) {
+                    Text(title)
+                        .foregroundColor(.red)
+                        .bold()
+                        .padding(.top, 5)
+                        .padding(.bottom, 5)
+                    Spacer()
+                    Button(action: {
+                        self.error = .none
+                    }, label: {
+                        Image(systemName: "xmark.circle")
+                    })
+                }
+                Text(message)
+                    .font(.body)
+                if error == .authorization {
+                    Button(action: {
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                    }, label: {
+                        Text(Constants.Titles.settings)
+                    })
+                }
+            }
+            .padding()
+        }
+        .frame(minWidth: 0, maxWidth: self.getPopupMaxWidth(), minHeight: 0, maxHeight: 150)
+        .cornerRadius(20)
+        .shadow(radius: 20)
     }
 }
 
@@ -113,7 +147,7 @@ struct SelectionView: View {
             Color.white
             VStack {
                 HStack {
-                    Text("Filter by")
+                    Text(Constants.Titles.filter)
                         .bold()
                         .padding(.top, 5)
                         .padding(.bottom, 5)
@@ -138,15 +172,9 @@ struct SelectionView: View {
                 }
             }.padding()
         }
-        .frame(minWidth: 0, maxWidth: getPopupMaxWidth(), minHeight: 0, maxHeight: 300)
+        .frame(minWidth: 0, maxWidth: self.getPopupMaxWidth(), minHeight: 0, maxHeight: 300)
         .cornerRadius(20)
         .shadow(radius: 20)
-    }
-    
-    func getPopupMaxWidth() -> CGFloat {
-        let screenRect = UIScreen.main.bounds
-        let screenWidth = screenRect.size.width
-        return (screenWidth * 2) / 3
     }
 }
 
@@ -157,11 +185,5 @@ struct CenterModifier: ViewModifier {
             content
             Spacer()
         }
-    }
-}
-
-struct PlacesView_Previews: PreviewProvider {
-    static var previews: some View {
-        PlacesView()
     }
 }
