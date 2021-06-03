@@ -9,10 +9,14 @@ import SwiftUI
 import Combine
 
 struct PlacesView: View {
-    @StateObject var placesViewModel = PlacesViewModel()
+    @StateObject var placesViewModel: PlacesViewModel
     @State var showSelection = false
     
     private let filters = ["all", "food", "shop", "transport", "tourist", "accommodation"]
+    
+    init(placesViewModel: PlacesViewModel = .init()) {
+        _placesViewModel = StateObject(wrappedValue: placesViewModel)
+    }
     
     var body: some View {
         ZStack {
@@ -25,7 +29,7 @@ struct PlacesView: View {
                             })
                     }
                 }
-                if $placesViewModel.isLoading.wrappedValue {
+                if $placesViewModel.loading.wrappedValue {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
                         .modifier(CenterModifier())
@@ -35,14 +39,8 @@ struct PlacesView: View {
             if $showSelection.wrappedValue {
                 SelectionView(model: placesViewModel, filters: filters, showSelection: $showSelection)
             }
-            if $placesViewModel.error.wrappedValue == PlacesError.authorization {
-                ErrorView(title: Constants.Errors.authorizationErrorTitle, message: Constants.Errors.authorizationErrorText, error: $placesViewModel.error)
-            }
-            if $placesViewModel.error.wrappedValue == PlacesError.empty {
-                ErrorView(title: Constants.Errors.emptyErrorTitle, message: Constants.Errors.emptyErrorText, error: $placesViewModel.error)
-            }
-            if $placesViewModel.error.wrappedValue == PlacesError.unknown {
-                ErrorView(title: Constants.Errors.unknownErrorTitle, message: Constants.Errors.unknownErrorText, error: $placesViewModel.error)
+            if $placesViewModel.error.wrappedValue != .none {
+                ErrorView(error: $placesViewModel.error)
             }
         }
         .navigationTitle(Constants.Titles.title)
@@ -96,9 +94,6 @@ struct PlaceView: View {
 }
 
 struct ErrorView: View {
-    let title: String
-    let message: String
-    
     @Binding var error: PlacesError
     
     var body: some View {
@@ -106,7 +101,7 @@ struct ErrorView: View {
             Color.white
             VStack(alignment: .center, spacing: 4.0) {
                 HStack(alignment: .center, spacing: 4.0) {
-                    Text(title)
+                    Text(error.title)
                         .foregroundColor(.red)
                         .bold()
                         .padding(.top, 5)
@@ -118,7 +113,7 @@ struct ErrorView: View {
                         Image(systemName: "xmark.circle")
                     })
                 }
-                Text(message)
+                Text(error.description)
                     .font(.body)
                 if error == .authorization {
                     Button(action: {

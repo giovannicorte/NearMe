@@ -9,15 +9,21 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
-    let place: Place
-    let location: Location
+    var place: Place
+    var location: Location
     
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var model = MapViewModel()
+    @StateObject var mapViewModel: MapViewModel
+    
+    init(mapViewModel: MapViewModel = .init(), place: Place, location: Location) {
+        _mapViewModel = StateObject(wrappedValue: mapViewModel)
+        self.place = place
+        self.location = location
+    }
     
     var body: some View {
         ZStack {
-            Map(coordinateRegion: $model.region,
+            Map(coordinateRegion: $mapViewModel.region,
                 showsUserLocation: true,
                 annotationItems: [self.place]) { place in
                 MapMarker(coordinate: place.getCoordinates())
@@ -39,7 +45,7 @@ struct MapView: View {
         }))
         .navigationBarBackButtonHidden(true)
         .onAppear(perform: {
-            model.loadRegion(placeLocation: place.location, userLocation: location)
+            mapViewModel.loadRegion(placeLocation: place.location, userLocation: location)
         })
     }
 }
@@ -86,11 +92,5 @@ struct InfoView: View {
       let mapItem = MKMapItem(placemark: placemark)
       mapItem.name = name
         mapItem.openInMaps(launchOptions: options)
-    }
-}
-
-struct DetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        MapView(place: TestData.place, location: TestData.place.location)
     }
 }
