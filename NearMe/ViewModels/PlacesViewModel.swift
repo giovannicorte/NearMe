@@ -36,18 +36,6 @@ class PlacesViewModel: NSObject, ObservableObject {
         }
     }
     
-    func invalidate(query: String = "all") {
-        guard !loading else {
-            return
-        }
-        self.loading = false
-        self.places = []
-        self.page = 0
-        self.canLoadMorePages = true
-        self.lastLocation = nil
-        self.query = query
-    }
-    
     func loadContent() {
         guard !loading && canLoadMorePages else {
             return
@@ -72,7 +60,7 @@ class PlacesViewModel: NSObject, ObservableObject {
         fetchPlaces(latitude: lastLocation!.coordinates[1], longitude: lastLocation!.coordinates[0])
     }
     
-    func fetchPlaces(latitude: Double, longitude: Double) {
+    private func fetchPlaces(latitude: Double, longitude: Double) {
         NetworkEngine.request(
             endpoint: PlacesEndpoint.places(query: query, latitude: latitude, longitude: longitude, page: page)) {
             (result : Result<Places, Error>) in
@@ -94,5 +82,17 @@ class PlacesViewModel: NSObject, ObservableObject {
                 self.error = .unknown
             }
         }
+    }
+    
+    func invalidate(query: String = "all") {
+        guard !loading else {
+            return
+        }
+        self.loading = false
+        self.places = []
+        self.page = 0
+        self.canLoadMorePages = true
+        self.lastLocation = nil
+        self.query = query
     }
 }
