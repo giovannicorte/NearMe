@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E255133A266632DE0078C151 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2551339266632DE0078C151 /* Constants.swift */; };
+		E2560D9826767EFE00A3B1A5 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2560D9726767EFE00A3B1A5 /* SettingsView.swift */; };
 		E2C7BF292668DC2800599B61 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C7BF282668DC2800599B61 /* LocationManager.swift */; };
 		E2C7BF2C2668E70800599B61 /* PlacesError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C7BF2B2668E70800599B61 /* PlacesError.swift */; };
 		E2EBAFA2265CFE70003DFA9D /* NearMeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EBAFA1265CFE70003DFA9D /* NearMeApp.swift */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		E2551339266632DE0078C151 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E2560D9726767EFE00A3B1A5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		E2C7BF282668DC2800599B61 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		E2C7BF2B2668E70800599B61 /* PlacesError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesError.swift; sourceTree = "<group>"; };
 		E2EBAF9E265CFE70003DFA9D /* NearMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NearMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +84,7 @@
 				E2EBAFC2265CFFA9003DFA9D /* PlacesView.swift */,
 				E2EBAFC8265D0002003DFA9D /* MapView.swift */,
 				E2EBAFCB265D0029003DFA9D /* TestData.swift */,
+				E2560D9726767EFE00A3B1A5 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				E2EBAFCC265D0029003DFA9D /* TestData.swift in Sources */,
 				E2EBAFA2265CFE70003DFA9D /* NearMeApp.swift in Sources */,
 				E2C7BF2C2668E70800599B61 /* PlacesError.swift in Sources */,
+				E2560D9826767EFE00A3B1A5 /* SettingsView.swift in Sources */,
 				E2EBAFC0265CFF6C003DFA9D /* MapViewModel.swift in Sources */,
 				E2EBAFB5265CFECB003DFA9D /* Extensions.swift in Sources */,
 				E2EFBD9D265E86E2005653C4 /* NetworkEngine.swift in Sources */,

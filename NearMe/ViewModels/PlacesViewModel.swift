@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 import Combine
 
-class PlacesViewModel: NSObject, ObservableObject {
+class PlacesViewModel: ObservableObject {
     @Published var places: [Place] = [Place]()
     @Published var loading: Bool = false
     @Published var error: PlacesError = .none

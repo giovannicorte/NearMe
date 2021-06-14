@@ -41,4 +41,10 @@ extension View {
         let screenWidth = screenRect.size.width
         return (screenWidth * 2) / 3
     }
+    
+    func getToolBarHeight()  -> CGFloat {
+        let screenRect = UIScreen.main.bounds
+        let screenHeight = screenRect.size.height
+        return screenHeight / 10
+    }
 }
